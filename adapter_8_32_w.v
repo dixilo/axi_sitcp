@@ -159,9 +159,7 @@ module adapter_8_32_w(
     // address buffer
 
     assign m_axi_awaddr = s_awaddr_buf;
-
-    // Assuming big endian
-    assign m_axi_wstrb = wstrb_sum;
+    assign m_axi_wstrb = 4'b1111;
 
     // awvalid
     reg m_awvalid_buf;

@@ -10,6 +10,15 @@ module axi_sitcp(
     output wire phy_txp,
     output wire phy_txn,
 
+
+    // SiTCP signals
+    output wire       tcp_rx_wr,   // RX valid
+    output wire [7:0] tcp_rxd,     // RX data
+
+    output wire       tcp_tx_full, // TX fifo almost full
+    input  wire       tcp_tx_wr,   // TX valid
+    input  wire [7:0] tcp_txd,     // TX data
+
     // AXI master
     input wire m_axi_aclk,           // 200 MHz
     input wire m_axi_aresetn,        // reset
@@ -118,13 +127,6 @@ module axi_sitcp(
     wire tcp_error;
     wire tcp_close_req;
     wire tcp_close_ack;
-
-    wire tcp_rx_wr;
-    wire [7:0] tcp_rxd;
-
-    wire tcp_tx_full;
-    wire tcp_tx_wr;
-    wire [7:0] tcp_txd;
 
     assign tcp_close_ack = tcp_close_req;
 

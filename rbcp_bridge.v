@@ -64,11 +64,11 @@ module rbcp_bridge(
 
     assign addr_res = addr_buf[1:0];
 
-    // Assuming big endian
-    assign m_axi_wstrb[3] = (addr_res == 2'd0);
-    assign m_axi_wstrb[2] = (addr_res == 2'd1);
-    assign m_axi_wstrb[1] = (addr_res == 2'd2);
-    assign m_axi_wstrb[0] = (addr_res == 2'd3);
+    // Assuming little endian
+    assign m_axi_wstrb[0] = (addr_res == 2'd0);
+    assign m_axi_wstrb[1] = (addr_res == 2'd1);
+    assign m_axi_wstrb[2] = (addr_res == 2'd2);
+    assign m_axi_wstrb[3] = (addr_res == 2'd3);
 
     assign araddr_res = m_axi_wstrb;
 
@@ -153,11 +153,11 @@ module rbcp_bridge(
             rdata_buf <= 8'd0;
         end else begin
             if (m_axi_rvalid) begin
-                case (addr_res)// Big endian
-                2'b00: rdata_buf <= m_axi_rdata[31:24];
-                2'b01: rdata_buf <= m_axi_rdata[23:16];
-                2'b10: rdata_buf <= m_axi_rdata[15:8];
-                2'b11: rdata_buf <= m_axi_rdata[7:0];
+                case (addr_res)// little endian
+                2'b00: rdata_buf <= m_axi_rdata[7:0];
+                2'b01: rdata_buf <= m_axi_rdata[15:8];
+                2'b10: rdata_buf <= m_axi_rdata[23:16];
+                2'b11: rdata_buf <= m_axi_rdata[31:24];
                 default: rdata_buf <= 0;
                 endcase
             end

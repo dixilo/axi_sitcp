@@ -97,5 +97,50 @@ ipx::reorder_files -before ../SiTCP_Netlist_for_Kintex_UltraScale/SiTCP_XCKU_32K
 ipx::add_address_space m_axi [ipx::current_core]
 set_property master_address_space_ref m_axi [ipx::get_bus_interfaces m_axi -of_objects [ipx::current_core]]
 
+# SGMII bus
+ipx::add_bus_interface phy [ipx::current_core]
+set_property abstraction_type_vlnv xilinx.com:interface:sgmii_rtl:1.0 [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+set_property bus_type_vlnv xilinx.com:interface:sgmii:1.0 [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+set_property interface_mode master [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+ipx::add_port_map RXN [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+set_property physical_name phy_rxn [ipx::get_port_maps RXN -of_objects [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]]
+ipx::add_port_map TXN [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+set_property physical_name phy_txn [ipx::get_port_maps TXN -of_objects [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]]
+ipx::add_port_map RXP [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+set_property physical_name phy_rxp [ipx::get_port_maps RXP -of_objects [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]]
+ipx::add_port_map TXP [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]
+set_property physical_name phy_txp [ipx::get_port_maps TXP -of_objects [ipx::get_bus_interfaces phy -of_objects [ipx::current_core]]]
+
+# PHY clk
+
+ipx::add_bus_interface phy_clk [ipx::current_core]
+set_property abstraction_type_vlnv xilinx.com:interface:diff_clock_rtl:1.0 [ipx::get_bus_interfaces phy_clk -of_objects [ipx::current_core]]
+set_property bus_type_vlnv xilinx.com:interface:diff_clock:1.0 [ipx::get_bus_interfaces phy_clk -of_objects [ipx::current_core]]
+ipx::add_port_map CLK_P [ipx::get_bus_interfaces phy_clk -of_objects [ipx::current_core]]
+set_property physical_name phy_clk_p [ipx::get_port_maps CLK_P -of_objects [ipx::get_bus_interfaces phy_clk -of_objects [ipx::current_core]]]
+ipx::add_port_map CLK_N [ipx::get_bus_interfaces phy_clk -of_objects [ipx::current_core]]
+set_property physical_name phy_clk_n [ipx::get_port_maps CLK_N -of_objects [ipx::get_bus_interfaces phy_clk -of_objects [ipx::current_core]]]
+
+
+# TCP
+ipx::add_bus_interface tcp_rx [ipx::current_core]
+set_property abstraction_type_vlnv xilinx.com:interface:fifo_write_rtl:1.0 [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]
+set_property bus_type_vlnv xilinx.com:interface:fifo_write:1.0 [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]
+set_property interface_mode master [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]
+ipx::add_port_map WR_DATA [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]
+set_property physical_name tcp_rxd [ipx::get_port_maps WR_DATA -of_objects [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]]
+ipx::add_port_map WR_EN [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]
+set_property physical_name tcp_rx_wr [ipx::get_port_maps WR_EN -of_objects [ipx::get_bus_interfaces tcp_rx -of_objects [ipx::current_core]]]
+
+ipx::add_bus_interface tcp_tx [ipx::current_core]
+set_property abstraction_type_vlnv xilinx.com:interface:fifo_write_rtl:1.0 [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]
+set_property bus_type_vlnv xilinx.com:interface:fifo_write:1.0 [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]
+ipx::add_port_map WR_DATA [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]
+set_property physical_name tcp_txd [ipx::get_port_maps WR_DATA -of_objects [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]]
+ipx::add_port_map WR_EN [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]
+set_property physical_name tcp_tx_wr [ipx::get_port_maps WR_EN -of_objects [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]]
+ipx::add_port_map ALMOST_FULL [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]
+set_property physical_name tcp_tx_full [ipx::get_port_maps ALMOST_FULL -of_objects [ipx::get_bus_interfaces tcp_tx -of_objects [ipx::current_core]]]
+
 update_compile_order -fileset sources_1
 ipx::save_core [ipx::current_core]
