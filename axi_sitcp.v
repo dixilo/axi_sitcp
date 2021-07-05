@@ -19,6 +19,8 @@ module axi_sitcp(
     input  wire       tcp_tx_wr,   // TX valid
     input  wire [7:0] tcp_txd,     // TX data
 
+    output wire       tcp_open_ack, // TCP open ack
+
     // AXI master
     input wire m_axi_aclk,           // 200 MHz
     input wire m_axi_aresetn,        // reset
@@ -123,7 +125,7 @@ module axi_sitcp(
     wire eeprom_di;
     wire eeprom_do;
 
-    wire tcp_open_ack;
+    
     wire tcp_error;
     wire tcp_close_req;
     wire tcp_close_ack;
